@@ -11,7 +11,7 @@ class FooterBar extends Component{
         const child = this.refs.user.value
         this.props.updateUser(child)
         const newMessage = evt.target.value;
-        this.props.AddMessage({text:newMessage, user:child});
+        this.props.addMessage({text:newMessage, user:child});
         evt.target.value = ''
       }
     }
@@ -21,7 +21,7 @@ class FooterBar extends Component{
   render(){
     return (
       <footer className="chatbar">
-      <input ref="user" className="chatbar-username" placeholder="Your Name (Optional)" />
+      <input ref="user" className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={this.props.currentUser.currentUser.name} />
       <input onKeyDown={this.handleKeyDown} name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
       );
