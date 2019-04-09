@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
-import MainContent from './Message.jsx'
+import MessageList from './MessageList.jsx'
 
 function NavBar(props){
   return (<nav className="navbar">
@@ -10,12 +10,30 @@ function NavBar(props){
 
 
 class App extends Component {
+  constructor(props){
+    super()
+    this.AddMessage = this.AddMessage.bind(this)
+
+    this.state = {
+      currentUser: null,
+      messages: []
+    }
+  }
+
+
+  AddMessage(message) {
+    const oldMessages = this.state.messages;
+    const newMessages = [...oldMessages, message];
+    this.setState({ messages: newMessages });
+  }
+
+
   render() {
     return (
       <div>
       <NavBar />
-      <MainContent />
-      <ChatBar />
+      <MessageList messages={this.state.messages} />
+      <ChatBar AddMessage={this.AddMessage} currentUser={this.state.currentUser} />
       </div>
     );
   }
