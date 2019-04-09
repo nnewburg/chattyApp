@@ -13,6 +13,7 @@ class App extends Component {
   constructor(props){
     super()
     this.AddMessage = this.AddMessage.bind(this)
+    this.updateUser = this.updateUser.bind(this)
 
     this.state = {
       currentUser: null,
@@ -27,13 +28,18 @@ class App extends Component {
     this.setState({ messages: newMessages });
   }
 
+  updateUser(user){
+    const newUser = user
+    this.setState({currentUser: newUser});
+  }
+
 
   render() {
     return (
       <div>
       <NavBar />
-      <MessageList messages={this.state.messages} />
-      <ChatBar AddMessage={this.AddMessage} currentUser={this.state.currentUser} />
+      <MessageList  messages={this.state} />
+      <ChatBar updateUser={this.updateUser} AddMessage={this.AddMessage} currentUser={this.state.currentUser} />
       </div>
     );
   }

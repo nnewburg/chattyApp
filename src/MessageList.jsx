@@ -3,7 +3,7 @@ import Message from './Message.jsx'
 
 class MessageList extends Component{
   render(){
-    return (<Message messages={this.props.messages} />)
+    return (<Message user={this.props.user} messages={this.props.messages} />)
   }
 }
 

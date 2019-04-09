@@ -8,8 +8,11 @@ class FooterBar extends Component{
   }
    handleKeyDown(evt) {
       if(evt.keyCode === 13){
+        const child = this.refs.user.value
+        this.props.updateUser(child)
         const newMessage = evt.target.value;
-        this.props.AddMessage(newMessage);
+        this.props.AddMessage({text:newMessage, user:child});
+        evt.target.value = ''
       }
     }
 
@@ -18,7 +21,7 @@ class FooterBar extends Component{
   render(){
     return (
       <footer className="chatbar">
-      <input className="chatbar-username" placeholder="Your Name (Optional)" />
+      <input ref="user" className="chatbar-username" placeholder="Your Name (Optional)" />
       <input onKeyDown={this.handleKeyDown} name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
       );
