@@ -18,6 +18,15 @@ npm install
 npm start
 open http://localhost:3000
 ```
+### Screenshots
+
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty1.png?raw=true)
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty2.png?raw=true)
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty3.png?raw=true)
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty4.png?raw=true)
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty5.png?raw=true)
+!["Screenshot of chatty messages"](https://github.com/nnewburg/chattyApp/blob/master/docs/chatty6.png?raw=true)
+
 
 ### Lessons Learned
 
