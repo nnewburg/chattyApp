@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
-import MessageList from './MessageList.jsx'
+import MessageList from './MessageList.jsx';
 
 function NavBar(props){
   return (<nav style={{zIndex: '1'}} className="navbar">
@@ -15,9 +15,9 @@ function NavBar(props){
 class App extends Component {
   constructor(props){
     super()
-    this.webSocket = new WebSocket('ws://localhost:3001/')
-    this.addMessage = this.addMessage.bind(this)
-    this.updateUser = this.updateUser.bind(this)
+    this.webSocket = new WebSocket('ws://localhost:3001/');
+    this.addMessage = this.addMessage.bind(this);
+    this.updateUser = this.updateUser.bind(this);
     this.state = {
       currentUser: {name: 'Anonymous'},
       messages: [],
@@ -44,7 +44,7 @@ class App extends Component {
        if(JSON.parse(event.data).type === 'incomingMessage' || JSON.parse(event.data).type === 'incomingNotification'){
          const oldMessages = this.state.messages;
          const newMessages = [...oldMessages, JSON.parse(event.data)];
-         this.setState({ messages: newMessages });
+         this.setState({ messages: newMessages })
         }
          else if(JSON.parse(event.data).type === 'assignedColor'){
           this.setState({color: JSON.parse(event.data).color})

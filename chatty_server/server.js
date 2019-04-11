@@ -23,26 +23,26 @@ let userCount = 0;
 // the ws parameter in the callback. the client is also assigned a color
 wss.on('connection', (ws) => {
   let randomNum = Math.floor((Math.random() * 4) + 0);
-  let color = ''
+  let color = '';
   if(randomNum === 0){
-    color = 'red'
+    color = 'red';
   } else if(randomNum === 1){
-    color = 'green'
+    color = 'green';
   } else if(randomNum === 2){
-    color = 'blue'
+    color = 'blue';
   } else {
-    color = 'orange'
+    color = 'orange';
   }
 
   //increment the number of people logged on
-  userCount++
+  userCount++;
   console.log('Client connected');
   //create two objects one that is a broadcast to all connected clients the number of clients connected
   //the other is sent only to the recently connected client assigning them a color
   let colorObject = {color: color, type: 'assignedColor'};
-  let onlineObject = {count: userCount, type: "numUser"}
+  let onlineObject = {count: userCount, type: "numUser"};
 
-  ws.send(JSON.stringify(colorObject))
+  ws.send(JSON.stringify(colorObject));
 
 //broadcast the usersOnline object to all connected clients
   wss.clients.forEach(function each(client) {
@@ -53,12 +53,12 @@ wss.on('connection', (ws) => {
 //it assings that message a unique id and a type
 ws.on('message', (data) => {
     let temp = JSON.parse(data);
-    temp.id = uuidv1()
+    temp.id = uuidv1();
     console.log(temp);
     if(temp.type === 'postMessage'){
-      temp.type = 'incomingMessage'
+      temp.type = 'incomingMessage';
     } else {
-      temp.type = 'incomingNotification'
+      temp.type = 'incomingNotification';
     }
 
     console.log(temp);

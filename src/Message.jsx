@@ -13,20 +13,20 @@ class Helper extends Component {
     let containsUrl = false;
     let str = this.props.item;
     let res = str.split(" ");
-    let img = ''
-    let eleIsUrl = ''
+    let img = '';
+    let eleIsUrl = '';
     res.forEach(function(element){
-      eleIsUrl = checkURL(element)
+      eleIsUrl = checkURL(element);
 
       if (eleIsUrl){
         containsUrl = true;
-        img = element
-        let index = res.indexOf(element)
-        res.splice(index, 1)
+        img = element;
+        let index = res.indexOf(element);
+        res.splice(index, 1);
       }
       eleIsUrl = false;
-    })
-    let output = res.join(' ')
+    });
+    let output = res.join(' ');
 
 
     //if the type of message the websocket sends is from the chat input field the array of messages will render in the
@@ -51,7 +51,7 @@ class Helper extends Component {
             <span className="message-content" >{output}</span>
           </div>
           <div>
-          <img src={img} style={{zIndex: '0', position: 'relative', left: '15%',height:'5%' ,width: '20%'}} />
+          <img src={img} style={{zIndex: '0', position: 'relative', left: '15%',height:'20%' ,width: '50%'}} />
           </div>
         </div>
       )

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class FooterBar extends Component{
   constructor(props){
     super();
-    this.handleTextInput= this.handleTextInput.bind(this);
+    this.handleTextInput = this.handleTextInput.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
   }
 
@@ -13,7 +13,7 @@ class FooterBar extends Component{
    handleTextInput(event) {
       if(event.keyCode === 13){
         this.props.addMessage({type: "postMessage", text:event.target.value, user:this.props.state.currentUser.name, color: this.props.state.color});
-        event.target.value = ''
+        event.target.value = '';
       }
     }
 
@@ -22,8 +22,8 @@ class FooterBar extends Component{
   //the type of message is defined as postNotification
     handleNameChange(event){
       if(event.keyCode === 13){
-        const newUser = this.refs.user.value
-        this.props.updateUser(newUser)
+        const newUser = this.refs.user.value;
+        this.props.updateUser(newUser);
       }
     }
 
