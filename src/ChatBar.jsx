@@ -13,7 +13,7 @@ class FooterBar extends Component{
         // const child = this.refs.user.value
         // this.props.updateUser(child)
         const newMessage = evt.target.value;
-        this.props.addMessage({type: "postMessage", text:newMessage, user:this.props.currentUser.currentUser.name, color: this.props.color});
+        this.props.addMessage({type: "postMessage", text:newMessage, user:this.props.state.currentUser.name, color: this.props.state.color});
         evt.target.value = ''
       }
     }
@@ -24,7 +24,7 @@ class FooterBar extends Component{
 
     handleNameChange(event){
       if(event.keyCode === 13){
-        const oldUser = this.props.currentUser.currentUser.name
+        const oldUser = this.props.state.currentUser.name
         const newUser = this.refs.user.value
         // this.setState({currentUser: newUser })
         this.props.updateUser(newUser)

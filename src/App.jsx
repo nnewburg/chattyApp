@@ -9,7 +9,7 @@ function NavBar(props){
          </nav>)
 }
 
-//
+
 
 class App extends Component {
   constructor(props){
@@ -17,7 +17,6 @@ class App extends Component {
     this.webSocket = new WebSocket('ws://localhost:3001/')
     this.addMessage = this.addMessage.bind(this)
     this.updateUser = this.updateUser.bind(this)
-
     this.state = {
       currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
@@ -26,10 +25,6 @@ class App extends Component {
       };
     }
 
-  updateUser(newUser){
-    this.webSocket.send(JSON.stringify({type: 'postNotification', oldUser: this.state.currentUser.name, newUser: newUser, text:`${this.state.currentUser.name} changed their name to ${newUser}`}))
-    this.setState({currentUser: {name: newUser}});
-  }
 
   componentDidMount() {
   console.log("componentDidMount <App />");
@@ -45,7 +40,9 @@ class App extends Component {
          const oldMessages = this.state.messages;
          const newMessages = [...oldMessages, JSON.parse(event.data)];
          this.setState({ messages: newMessages });
-        } else if(JSON.parse(event.data).type === 'assignedColor'){
+        }
+
+         else if(JSON.parse(event.data).type === 'assignedColor'){
           this.setState({color: JSON.parse(event.data).color})
         }else{
           let sup = JSON.parse(event.data)
@@ -54,11 +51,14 @@ class App extends Component {
       }
 }
 
+
+  updateUser(newUser){
+    this.webSocket.send(JSON.stringify({type: 'postNotification', oldUser: this.state.currentUser.name, newUser: newUser, text:`${this.state.currentUser.name} changed their name to ${newUser}`}))
+    this.setState({currentUser: {name: newUser}});
+  }
+
   addMessage(message) {
-    // const oldMessages = this.state.messages;
-    // const newMessages = [...oldMessages, message];
     this.webSocket.send(JSON.stringify(message))
-    // this.setState({ messages: newMessages });
   }
 
 
@@ -68,7 +68,7 @@ class App extends Component {
       <div>
       <NavBar count={this.state.currentNumUser} />
       <MessageList  messages={this.state} />
-      <ChatBar updateUser={this.updateUser} addMessage={this.addMessage} currentUser={this.state} />
+      <ChatBar updateUser={this.updateUser} addMessage={this.addMessage} state={this.state} />
       </div>
     );
   }
