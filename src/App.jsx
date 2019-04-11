@@ -3,7 +3,7 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx'
 
 function NavBar(props){
-  return (<nav className="navbar">
+  return (<nav style={{zIndex: '1'}} className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
          <p style={{margin: '0', padding: '0', alignSelf: 'center', fontSize: '1.5em'}}> {props.count} users online</p>
          </nav>)
