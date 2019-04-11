@@ -5,63 +5,60 @@ import MessageList from './MessageList.jsx'
 function NavBar(props){
   return (<nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+         <span style={{float: 'right', marginTop: '0.75em', fontSize: '1.5em'}}> {props.count} users online</span>
          </nav>)
 }
 
+//
 
 class App extends Component {
   constructor(props){
     super()
+    this.webSocket = new WebSocket('ws://localhost:3001/')
     this.addMessage = this.addMessage.bind(this)
     this.updateUser = this.updateUser.bind(this)
 
     this.state = {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-  messages: [
-    {
-      user: "Bob",
-      text: "Has anyone seen my marbles?",
-    },
-    {
-      user: "Anonymous",
-      text: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+      currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
+      messages: [],
+      currentNumUser: null,
+      color: null
+      };
     }
-  ]
-}
-  }
 
-
-
-  updateUser(user){
-    const newUser = user
-    this.setState({currentUser: newUser});
+  updateUser(newUser){
+    this.webSocket.send(JSON.stringify({type: 'postNotification', oldUser: this.state.currentUser.name, newUser: newUser, text:`${this.state.currentUser.name} changed their name to ${newUser}`}))
+    this.setState({currentUser: {name: newUser}});
   }
 
   componentDidMount() {
   console.log("componentDidMount <App />");
-  this.webSocket = new WebSocket("ws://localhost:3001/");
-  setTimeout(() => {
 
 
     this.webSocket.onopen = function (event) {
       console.log("connected to the server");
     };
 
-    console.log("Simulating incoming message");
-    // Add a new message to the list of messages in the data store
-    const newMessage = {id: 3, user: "Michelle", text: "Hello there!"};
-    const messages = this.state.messages.concat(newMessage)
-    // Update the state of the app component.
-    // Calling setState will trigger a call to render() in App and all child components.
-    this.setState({messages: messages})
-  }, 3000);
+     this.webSocket.onmessage = (event) => {
+
+       if(JSON.parse(event.data).type === 'incomingMessage' || JSON.parse(event.data).type === 'incomingNotification'){
+         const oldMessages = this.state.messages;
+         const newMessages = [...oldMessages, JSON.parse(event.data)];
+         this.setState({ messages: newMessages });
+        } else if(JSON.parse(event.data).type === 'assignedColor'){
+          this.setState({color: JSON.parse(event.data).color})
+        }else{
+          let sup = JSON.parse(event.data)
+          this.setState({currentNumUser: sup.count})
+        }
+      }
 }
 
   addMessage(message) {
-    const oldMessages = this.state.messages;
-    const newMessages = [...oldMessages, message];
+    // const oldMessages = this.state.messages;
+    // const newMessages = [...oldMessages, message];
     this.webSocket.send(JSON.stringify(message))
-    this.setState({ messages: newMessages });
+    // this.setState({ messages: newMessages });
   }
 
 
@@ -69,7 +66,7 @@ class App extends Component {
   render() {
     return (
       <div>
-      <NavBar />
+      <NavBar count={this.state.currentNumUser} />
       <MessageList  messages={this.state} />
       <ChatBar updateUser={this.updateUser} addMessage={this.addMessage} currentUser={this.state} />
       </div>
