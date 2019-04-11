@@ -7,7 +7,7 @@ change their username, and broadcast a message to all other connected clients.
 ### Usage
 
 ```
-git clone git@github.com:nnewburg/chattyApp.git [*namedAny]
+git clone git@github.com:nnewburg/chattyApp.git
 ```
 
 Install the dependencies and start the server. You will need to npm install in chattyApp
