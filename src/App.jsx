@@ -5,11 +5,11 @@ import MessageList from './MessageList.jsx'
 function NavBar(props){
   return (<nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
-         <span style={{float: 'right', marginTop: '0.75em', fontSize: '1.5em'}}> {props.count} users online</span>
+         <p style={{margin: '0', padding: '0', alignSelf: 'center', fontSize: '1.5em'}}> {props.count} users online</p>
          </nav>)
 }
 
-
+// <span style={{float: 'right', marginTop: '0.75em', fontSize: '1.5em'}}> {props.count} users online</span>
 //Class constructor for App all other components get rendered into app
 class App extends Component {
   constructor(props){

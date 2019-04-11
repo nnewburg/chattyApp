@@ -73,6 +73,8 @@
       position: fixed;
       right: 0;
       top: 0;
+      display: flex;
+      justify-content: space-between;
     }
 
     .navbar-brand {
