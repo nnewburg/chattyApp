@@ -16,10 +16,11 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+//create a variable to keep track of how many people are logged on
 let userCount = 0;
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+// the ws parameter in the callback. the client is also assigned a color
 wss.on('connection', (ws) => {
   let randomNum = Math.floor((Math.random() * 4) + 0);
   let color = ''
@@ -30,21 +31,26 @@ wss.on('connection', (ws) => {
   } else if(randomNum === 2){
     color = 'blue'
   } else {
-    color = 'yellow'
+    color = 'orange'
   }
 
+  //increment the number of people logged on
   userCount++
   console.log('Client connected');
+  //create two objects one that is a broadcast to all connected clients the number of clients connected
+  //the other is sent only to the recently connected client assigning them a color
   let colorObject = {color: color, type: 'assignedColor'};
   let onlineObject = {count: userCount, type: "numUser"}
 
   ws.send(JSON.stringify(colorObject))
 
-
+//broadcast the usersOnline object to all connected clients
   wss.clients.forEach(function each(client) {
         client.send(JSON.stringify(onlineObject));
   });
 
+//when the websocket receives a message it relays that message to all connected clients
+//it assings that message a unique id and a type
 ws.on('message', (data) => {
     let temp = JSON.parse(data);
     temp.id = uuidv1()
@@ -56,14 +62,14 @@ ws.on('message', (data) => {
     }
 
     console.log(temp);
-    // ws.send(JSON.stringify(temp))
+    //loop to message each client the message that was sent to the server
     wss.clients.forEach(function each(client) {
-
         client.send(JSON.stringify(temp));
-
     });
+
   });
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  //broadcasts all connected clients that someone closed the browser after decrementing the userCount
   ws.on('close', () => {
     userCount--
     let onlineObject = {count: userCount, type: "numUser"}

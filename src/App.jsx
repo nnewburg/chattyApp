@@ -9,8 +9,9 @@ function NavBar(props){
          </nav>)
 }
 
-// <span style={{float: 'right', marginTop: '0.75em', fontSize: '1.5em'}}> {props.count} users online</span>
+
 //Class constructor for App all other components get rendered into app
+//has the state attributes current user messages current number of users and color of the client's user name
 class App extends Component {
   constructor(props){
     super()
@@ -29,17 +30,16 @@ class App extends Component {
   componentDidMount() {
   console.log("componentDidMount");
 
-
     this.webSocket.onopen = function (event) {
       console.log("connected to the server");
     };
 
     // if the client receives a message from the websocket check the type of message:
-    // if the message has the type incomingMessage or incomingNotification it updates the state of app
+    // if the message has the type incomingMessage or incomingNotification it updates the state of app: messages
     // with the content of the received message from the websocket, causing the render function to update the array of messages
     // if the message has the type assignedColor it sets the state of that client's color to the randomly generated color
     // if the message has the type numUser it updates the state of numUsers
-     this.webSocket.onmessage = (event) => {
+    this.webSocket.onmessage = (event) => {
 
        if(JSON.parse(event.data).type === 'incomingMessage' || JSON.parse(event.data).type === 'incomingNotification'){
          const oldMessages = this.state.messages;
@@ -59,7 +59,10 @@ class App extends Component {
   //the client sends a message to the websocket with the postNotification indicating a user changed their name
   //the websocket broadcasts that notification to all connected clients the client also updates its state for CurrentUser
   updateUser(newUser){
-    this.webSocket.send(JSON.stringify({type: 'postNotification', oldUser: this.state.currentUser.name, newUser: newUser, text:`${this.state.currentUser.name} changed their name to ${newUser}`}))
+    this.webSocket.send(JSON.stringify({type: 'postNotification',
+                                        oldUser: this.state.currentUser.name,
+                                        newUser: newUser,
+                                        text:`${this.state.currentUser.name} changed their name to ${newUser}`}))
     this.setState({currentUser: {name: newUser}});
   }
 
@@ -72,7 +75,7 @@ class App extends Component {
   }
 
 
-
+//renders the nav bar, messagesList, and Chat Bar into the app component
   render() {
     return (
       <div>

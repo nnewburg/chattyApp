@@ -3,42 +3,35 @@ import React, {Component} from 'react';
 class FooterBar extends Component{
   constructor(props){
     super();
-    this.handleKeyDown= this.handleKeyDown.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
+    this.handleTextInput= this.handleTextInput.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
-
   }
-   handleKeyDown(evt) {
-      if(evt.keyCode === 13){
-        // const child = this.refs.user.value
-        // this.props.updateUser(child)
-        const newMessage = evt.target.value;
-        this.props.addMessage({type: "postMessage", text:newMessage, user:this.props.state.currentUser.name, color: this.props.state.color});
-        evt.target.value = ''
+
+  //function to handle when a user inputs a text value
+  //checks the value of the text box and calls the addMessage function from the app component
+  //the type of message is defined as postMessage
+   handleTextInput(event) {
+      if(event.keyCode === 13){
+        this.props.addMessage({type: "postMessage", text:event.target.value, user:this.props.state.currentUser.name, color: this.props.state.color});
+        event.target.value = ''
       }
     }
 
-    // handleChange(event){
-    //   this.setState({currentUser: event.target.value})
-    // }
-
+   //function to handle when a user inputs a new username
+  //checks the value of the user text box and calls the updateUser function from the app component
+  //the type of message is defined as postNotification
     handleNameChange(event){
       if(event.keyCode === 13){
-        const oldUser = this.props.state.currentUser.name
         const newUser = this.refs.user.value
-        // this.setState({currentUser: newUser })
         this.props.updateUser(newUser)
       }
     }
 
-
-
-
   render(){
     return (
       <footer className="chatbar">
-      <input onKeyDown={this.handleNameChange} onChange={this.handleChange} ref="user" className="chatbar-username" placeholder="Your Name (Optional)" />
-      <input onKeyDown={this.handleKeyDown} name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
+      <input onKeyDown={this.handleNameChange} ref="user" className="chatbar-username" placeholder="Your Name (Optional)" />
+      <input onKeyDown={this.handleTextInput} name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
       );
     }
